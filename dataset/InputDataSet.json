@@ -1,0 +1,35 @@
+{
+	"name": "InputDataSet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureStorageLinkedServicely",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Input"
+		},
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "emp.txt",
+				"folderPath": "input",
+				"container": "adflytutorial"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Prop_0",
+				"type": "String"
+			},
+			{
+				"name": "Prop_1",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

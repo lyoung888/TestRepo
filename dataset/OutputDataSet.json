@@ -1,0 +1,25 @@
+{
+	"name": "OutputDataSet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureStorageLinkedServicely",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Output"
+		},
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "output",
+				"container": "adflytutorial"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
