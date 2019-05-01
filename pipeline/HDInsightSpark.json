@@ -19,10 +19,6 @@
 						"referenceName": "adflystorage",
 						"type": "LinkedServiceReference"
 					}
-				},
-				"linkedServiceName": {
-					"referenceName": "HDInsight_OnDemand",
-					"type": "LinkedServiceReference"
 				}
 			}
 		]
