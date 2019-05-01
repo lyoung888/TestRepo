@@ -11,6 +11,18 @@
 		"AzureStorageLinkedServicely_connectionString": {
 			"value": ""
 		},
+		"HDInsight_OnDemand_clusterPassword": {
+			"value": ""
+		},
+		"HDInsight_OnDemand_clusterSshPassword": {
+			"value": ""
+		},
+		"HDInsight_OnDemand_servicePrincipalKey": {
+			"value": ""
+		},
+		"adflystorage_connectionString": {
+			"value": ""
+		},
 		"AzureDataLakeStore_Source_properties_typeProperties_dataLakeStoreUri": {
 			"value": "https://adflydatalake.azuredatalakestore.net/webhdfs/v1"
 		},
@@ -22,6 +34,21 @@
 		},
 		"AzureDataLakeStore_Source_properties_typeProperties_resourceGroupName": {
 			"value": "adfLYrg"
+		},
+		"HDInsight_OnDemand_properties_typeProperties_hostSubscriptionId": {
+			"value": "22631579-e944-4e57-b147-d1ddba73ecd3"
+		},
+		"HDInsight_OnDemand_properties_typeProperties_clusterResourceGroup": {
+			"value": "adfLYrg"
+		},
+		"HDInsight_OnDemand_properties_typeProperties_servicePrincipalId": {
+			"value": "9a87df18-ede0-42f4-8d9b-2147b3ad791d"
+		},
+		"HDInsight_OnDemand_properties_typeProperties_tenant": {
+			"value": "487cc98f-8695-4e3f-87b5-87e15cc0bc31"
+		},
+		"HDInsight_OnDemand_properties_typeProperties_clusterUserName": {
+			"value": "Clusterusername"
 		},
 		"containerUri": {
 			"value": ""

@@ -15,6 +15,22 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureStorageLinkedServicely'"
 		},
+		"HDInsight_OnDemand_clusterPassword": {
+			"type": "secureString",
+			"metadata": "Secure string for 'clusterPassword' of 'HDInsight_OnDemand'"
+		},
+		"HDInsight_OnDemand_clusterSshPassword": {
+			"type": "secureString",
+			"metadata": "Secure string for 'clusterSshPassword' of 'HDInsight_OnDemand'"
+		},
+		"HDInsight_OnDemand_servicePrincipalKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'servicePrincipalKey' of 'HDInsight_OnDemand'"
+		},
+		"adflystorage_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'adflystorage'"
+		},
 		"AzureDataLakeStore_Source_properties_typeProperties_dataLakeStoreUri": {
 			"type": "string",
 			"defaultValue": "https://adflydatalake.azuredatalakestore.net/webhdfs/v1"
@@ -30,6 +46,26 @@
 		"AzureDataLakeStore_Source_properties_typeProperties_resourceGroupName": {
 			"type": "string",
 			"defaultValue": "adfLYrg"
+		},
+		"HDInsight_OnDemand_properties_typeProperties_hostSubscriptionId": {
+			"type": "string",
+			"defaultValue": "22631579-e944-4e57-b147-d1ddba73ecd3"
+		},
+		"HDInsight_OnDemand_properties_typeProperties_clusterResourceGroup": {
+			"type": "string",
+			"defaultValue": "adfLYrg"
+		},
+		"HDInsight_OnDemand_properties_typeProperties_servicePrincipalId": {
+			"type": "string",
+			"defaultValue": "9a87df18-ede0-42f4-8d9b-2147b3ad791d"
+		},
+		"HDInsight_OnDemand_properties_typeProperties_tenant": {
+			"type": "string",
+			"defaultValue": "487cc98f-8695-4e3f-87b5-87e15cc0bc31"
+		},
+		"HDInsight_OnDemand_properties_typeProperties_clusterUserName": {
+			"type": "string",
+			"defaultValue": "Clusterusername"
 		}
 	},
 	"variables": {
@@ -98,6 +134,45 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ADLS_Master_FAA')]",
 				"[concat(variables('factoryId'), '/datasets/AzureBlobMasterFAAFile')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/HDInsightSpark')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Spark1",
+						"type": "HDInsightSpark",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"rootPath": "lym03l01lab01/spark/script",
+							"entryFilePath": "WordCount_Spark.py",
+							"sparkJobLinkedService": {
+								"referenceName": "adflystorage",
+								"type": "LinkedServiceReference"
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "HDInsight_OnDemand",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/adflystorage')]",
+				"[concat(variables('factoryId'), '/linkedServices/HDInsight_OnDemand')]"
 			]
 		},
 		{
@@ -489,6 +564,65 @@
 				"type": "AzureBlobStorage",
 				"typeProperties": {
 					"connectionString": "[parameters('AzureStorageLinkedServicely_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/HDInsight_OnDemand')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "HDInsightOnDemand",
+				"typeProperties": {
+					"clusterType": "spark",
+					"clusterSize": 4,
+					"timeToLive": "00:05:00",
+					"version": "3.6",
+					"hostSubscriptionId": "[parameters('HDInsight_OnDemand_properties_typeProperties_hostSubscriptionId')]",
+					"clusterResourceGroup": "[parameters('HDInsight_OnDemand_properties_typeProperties_clusterResourceGroup')]",
+					"servicePrincipalId": "[parameters('HDInsight_OnDemand_properties_typeProperties_servicePrincipalId')]",
+					"tenant": "[parameters('HDInsight_OnDemand_properties_typeProperties_tenant')]",
+					"clusterNamePrefix": "",
+					"clusterUserName": "[parameters('HDInsight_OnDemand_properties_typeProperties_clusterUserName')]",
+					"clusterPassword": {
+						"type": "SecureString",
+						"value": "[parameters('HDInsight_OnDemand_clusterPassword')]"
+					},
+					"clusterSshPassword": {
+						"type": "SecureString",
+						"value": "[parameters('HDInsight_OnDemand_clusterSshPassword')]"
+					},
+					"sparkVersion": "",
+					"servicePrincipalKey": {
+						"type": "SecureString",
+						"value": "[parameters('HDInsight_OnDemand_servicePrincipalKey')]"
+					},
+					"linkedServiceName": {
+						"referenceName": "adflystorage",
+						"type": "LinkedServiceReference"
+					},
+					"headNodeSize": "",
+					"dataNodeSize": "",
+					"zookeeperNodeSize": "",
+					"subnetName": "",
+					"virtualNetworkId": ""
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/adflystorage')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/adflystorage')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('adflystorage_connectionString')]"
 				}
 			},
 			"dependsOn": []
