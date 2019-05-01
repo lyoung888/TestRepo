@@ -1,0 +1,27 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "ADFlyTutorialDataFactory"
+		},
+		"AzStorageStaging_connectionString": {
+			"value": ""
+		},
+		"AzureStorageLinkedServicely_connectionString": {
+			"value": ""
+		},
+		"AzureDataLakeStore_Source_properties_typeProperties_dataLakeStoreUri": {
+			"value": "https://adflydatalake.azuredatalakestore.net/webhdfs/v1"
+		},
+		"AzureDataLakeStore_Source_properties_typeProperties_tenant": {
+			"value": "487cc98f-8695-4e3f-87b5-87e15cc0bc31"
+		},
+		"AzureDataLakeStore_Source_properties_typeProperties_subscriptionId": {
+			"value": "22631579-e944-4e57-b147-d1ddba73ecd3"
+		},
+		"AzureDataLakeStore_Source_properties_typeProperties_resourceGroupName": {
+			"value": "adfLYrg"
+		}
+	}
+}
