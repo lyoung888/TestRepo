@@ -1,0 +1,20 @@
+{
+	"name": "AzureBlobMasterFAAFile",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzStorageStaging",
+			"type": "LinkedServiceReference"
+		},
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"container": "output"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
