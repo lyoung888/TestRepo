@@ -1,5 +1,5 @@
 {
-	"name": "DelimitedText1",
+	"name": "ADLS_Master_FAA",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureDataLakeStore_Source",
