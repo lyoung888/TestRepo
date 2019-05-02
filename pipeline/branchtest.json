@@ -1,0 +1,14 @@
+{
+	"name": "branchtest",
+	"properties": {
+		"activities": [
+			{
+				"name": "Wait1",
+				"type": "Wait",
+				"typeProperties": {
+					"waitTimeInSeconds": 1
+				}
+			}
+		]
+	}
+}
