@@ -215,6 +215,14 @@
 			{
 				"name": "Validate Import Rows",
 				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "Import CSV",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "7.00:00:00",
 					"retry": 0,
@@ -233,6 +241,14 @@
 			{
 				"name": "Send Failure Notification",
 				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "Validate Import Rows",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "7.00:00:00",
 					"retry": 0,
@@ -257,6 +273,14 @@
 			{
 				"name": "Send Success Notification",
 				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "Validate Import Rows",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "7.00:00:00",
 					"retry": 0,
