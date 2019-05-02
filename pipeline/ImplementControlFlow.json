@@ -278,6 +278,12 @@
 					}
 				}
 			}
-		]
+		],
+		"parameters": {
+			"EmailTo": {
+				"type": "string",
+				"defaultValue": "lee_j_young@hotmail.com"
+			}
+		}
 	}
 }
