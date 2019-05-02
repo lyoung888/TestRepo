@@ -31,6 +31,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'adflystorage'"
 		},
+		"AzureSQL_lywsplusadfdb_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureSQL_lywsplusadfdb'"
+		},
 		"AzureDataLakeStore_Source_properties_typeProperties_dataLakeStoreUri": {
 			"type": "string",
 			"defaultValue": "https://adflydatalake.azuredatalakestore.net/webhdfs/v1"
@@ -65,7 +69,7 @@
 		},
 		"HDInsight_OnDemand_properties_typeProperties_clusterUserName": {
 			"type": "string",
-			"defaultValue": "Clusterusername"
+			"defaultValue": "clusterusername"
 		},
 		"containerUri": {
 			"type": "string",
@@ -102,6 +106,9 @@
 					},
 					"adflystorage_connectionString": {
 						"value": "[parameters('adflystorage_connectionString')]"
+					},
+					"AzureSQL_lywsplusadfdb_connectionString": {
+						"value": "[parameters('AzureSQL_lywsplusadfdb_connectionString')]"
 					},
 					"HDInsight_OnDemand_clusterPassword": {
 						"value": "[parameters('HDInsight_OnDemand_clusterPassword')]"
