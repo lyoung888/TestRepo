@@ -11,6 +11,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzStorageStaging'"
 		},
+		"AzureSQL_lywsplusadfdb_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureSQL_lywsplusadfdb'"
+		},
 		"AzureStorageLinkedServicely_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureStorageLinkedServicely'"
@@ -30,10 +34,6 @@
 		"adflystorage_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'adflystorage'"
-		},
-		"AzureSQL_lywsplusadfdb_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureSQL_lywsplusadfdb'"
 		},
 		"AzureDataLakeStore_Source_properties_typeProperties_dataLakeStoreUri": {
 			"type": "string",
@@ -101,14 +101,14 @@
 					"AzStorageStaging_connectionString": {
 						"value": "[parameters('AzStorageStaging_connectionString')]"
 					},
+					"AzureSQL_lywsplusadfdb_connectionString": {
+						"value": "[parameters('AzureSQL_lywsplusadfdb_connectionString')]"
+					},
 					"AzureStorageLinkedServicely_connectionString": {
 						"value": "[parameters('AzureStorageLinkedServicely_connectionString')]"
 					},
 					"adflystorage_connectionString": {
 						"value": "[parameters('adflystorage_connectionString')]"
-					},
-					"AzureSQL_lywsplusadfdb_connectionString": {
-						"value": "[parameters('AzureSQL_lywsplusadfdb_connectionString')]"
 					},
 					"HDInsight_OnDemand_clusterPassword": {
 						"value": "[parameters('HDInsight_OnDemand_clusterPassword')]"

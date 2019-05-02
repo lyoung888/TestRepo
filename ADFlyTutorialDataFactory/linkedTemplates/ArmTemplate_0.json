@@ -11,6 +11,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzStorageStaging'"
 		},
+		"AzureSQL_lywsplusadfdb_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureSQL_lywsplusadfdb'"
+		},
 		"AzureStorageLinkedServicely_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureStorageLinkedServicely'"
@@ -18,10 +22,6 @@
 		"adflystorage_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'adflystorage'"
-		},
-		"AzureSQL_lywsplusadfdb_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureSQL_lywsplusadfdb'"
 		},
 		"HDInsight_OnDemand_clusterPassword": {
 			"type": "secureString",
@@ -77,6 +77,26 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/branchtest')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Wait1",
+						"type": "Wait",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"waitTimeInSeconds": 1
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AzStorageStaging')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -106,6 +126,19 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/AzureSQL_lywsplusadfdb')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureSQL_lywsplusadfdb_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AzureStorageLinkedServicely')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -127,19 +160,6 @@
 				"type": "AzureBlobStorage",
 				"typeProperties": {
 					"connectionString": "[parameters('adflystorage_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureSQL_lywsplusadfdb')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureSqlDatabase",
-				"typeProperties": {
-					"connectionString": "[parameters('AzureSQL_lywsplusadfdb_connectionString')]"
 				}
 			},
 			"dependsOn": []
@@ -407,46 +427,98 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/HDInsight_OnDemand')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"name": "[concat(parameters('factoryName'), '/ProductsCSV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
+				"linkedServiceName": {
+					"referenceName": "adflystorage",
+					"type": "LinkedServiceReference"
+				},
 				"annotations": [],
-				"type": "HDInsightOnDemand",
+				"type": "DelimitedText",
 				"typeProperties": {
-					"clusterType": "spark",
-					"clusterSize": 4,
-					"timeToLive": "00:30:00",
-					"version": "3.6",
-					"hostSubscriptionId": "[parameters('HDInsight_OnDemand_properties_typeProperties_hostSubscriptionId')]",
-					"clusterResourceGroup": "[parameters('HDInsight_OnDemand_properties_typeProperties_clusterResourceGroup')]",
-					"servicePrincipalId": "[parameters('HDInsight_OnDemand_properties_typeProperties_servicePrincipalId')]",
-					"tenant": "[parameters('HDInsight_OnDemand_properties_typeProperties_tenant')]",
-					"clusterNamePrefix": "",
-					"clusterUserName": "[parameters('HDInsight_OnDemand_properties_typeProperties_clusterUserName')]",
-					"clusterPassword": {
-						"type": "SecureString",
-						"value": "[parameters('HDInsight_OnDemand_clusterPassword')]"
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "Products.csv",
+						"folderPath": "csv",
+						"container": "m03-l02-lab01"
 					},
-					"clusterSshPassword": {
-						"type": "SecureString",
-						"value": "[parameters('HDInsight_OnDemand_clusterSshPassword')]"
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "ProductID",
+						"type": "String"
 					},
-					"sparkVersion": "",
-					"servicePrincipalKey": {
-						"type": "SecureString",
-						"value": "[parameters('HDInsight_OnDemand_servicePrincipalKey')]"
+					{
+						"name": "Name",
+						"type": "String"
 					},
-					"linkedServiceName": {
-						"referenceName": "adflystorage",
-						"type": "LinkedServiceReference"
+					{
+						"name": "ProductNumber",
+						"type": "String"
 					},
-					"headNodeSize": "",
-					"dataNodeSize": "",
-					"zookeeperNodeSize": "",
-					"subnetName": "",
-					"virtualNetworkId": ""
-				}
+					{
+						"name": "Color",
+						"type": "String"
+					},
+					{
+						"name": "StandardCost",
+						"type": "String"
+					},
+					{
+						"name": "ListPrice",
+						"type": "String"
+					},
+					{
+						"name": "Size",
+						"type": "String"
+					},
+					{
+						"name": "Weight",
+						"type": "String"
+					},
+					{
+						"name": "ProductCategoryID",
+						"type": "String"
+					},
+					{
+						"name": "ProductModelID",
+						"type": "String"
+					},
+					{
+						"name": "SellStartDate",
+						"type": "String"
+					},
+					{
+						"name": "SellEndDate",
+						"type": "String"
+					},
+					{
+						"name": "DiscontinuedDate",
+						"type": "String"
+					},
+					{
+						"name": "ThumbNailPhoto",
+						"type": "String"
+					},
+					{
+						"name": "ThumbnailPhotoFileName",
+						"type": "String"
+					},
+					{
+						"name": "rowguid",
+						"type": "String"
+					},
+					{
+						"name": "(No column name)",
+						"type": "String"
+					}
+				]
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/adflystorage')]"
@@ -564,98 +636,46 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/ProductsCSV')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
+			"name": "[concat(parameters('factoryName'), '/HDInsight_OnDemand')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"linkedServiceName": {
-					"referenceName": "adflystorage",
-					"type": "LinkedServiceReference"
-				},
 				"annotations": [],
-				"type": "DelimitedText",
+				"type": "HDInsightOnDemand",
 				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "Products.csv",
-						"folderPath": "csv",
-						"container": "m03-l02-lab01"
+					"clusterType": "spark",
+					"clusterSize": 4,
+					"timeToLive": "00:30:00",
+					"version": "3.6",
+					"hostSubscriptionId": "[parameters('HDInsight_OnDemand_properties_typeProperties_hostSubscriptionId')]",
+					"clusterResourceGroup": "[parameters('HDInsight_OnDemand_properties_typeProperties_clusterResourceGroup')]",
+					"servicePrincipalId": "[parameters('HDInsight_OnDemand_properties_typeProperties_servicePrincipalId')]",
+					"tenant": "[parameters('HDInsight_OnDemand_properties_typeProperties_tenant')]",
+					"clusterNamePrefix": "",
+					"clusterUserName": "[parameters('HDInsight_OnDemand_properties_typeProperties_clusterUserName')]",
+					"clusterPassword": {
+						"type": "SecureString",
+						"value": "[parameters('HDInsight_OnDemand_clusterPassword')]"
 					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "ProductID",
-						"type": "String"
+					"clusterSshPassword": {
+						"type": "SecureString",
+						"value": "[parameters('HDInsight_OnDemand_clusterSshPassword')]"
 					},
-					{
-						"name": "Name",
-						"type": "String"
+					"sparkVersion": "",
+					"servicePrincipalKey": {
+						"type": "SecureString",
+						"value": "[parameters('HDInsight_OnDemand_servicePrincipalKey')]"
 					},
-					{
-						"name": "ProductNumber",
-						"type": "String"
+					"linkedServiceName": {
+						"referenceName": "adflystorage",
+						"type": "LinkedServiceReference"
 					},
-					{
-						"name": "Color",
-						"type": "String"
-					},
-					{
-						"name": "StandardCost",
-						"type": "String"
-					},
-					{
-						"name": "ListPrice",
-						"type": "String"
-					},
-					{
-						"name": "Size",
-						"type": "String"
-					},
-					{
-						"name": "Weight",
-						"type": "String"
-					},
-					{
-						"name": "ProductCategoryID",
-						"type": "String"
-					},
-					{
-						"name": "ProductModelID",
-						"type": "String"
-					},
-					{
-						"name": "SellStartDate",
-						"type": "String"
-					},
-					{
-						"name": "SellEndDate",
-						"type": "String"
-					},
-					{
-						"name": "DiscontinuedDate",
-						"type": "String"
-					},
-					{
-						"name": "ThumbNailPhoto",
-						"type": "String"
-					},
-					{
-						"name": "ThumbnailPhotoFileName",
-						"type": "String"
-					},
-					{
-						"name": "rowguid",
-						"type": "String"
-					},
-					{
-						"name": "(No column name)",
-						"type": "String"
-					}
-				]
+					"headNodeSize": "",
+					"dataNodeSize": "",
+					"zookeeperNodeSize": "",
+					"subnetName": "",
+					"virtualNetworkId": ""
+				}
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/adflystorage')]"
